@@ -1,31 +1,40 @@
-#include <fplus/fplus.hpp>
+#include <cassert>
+#include <vector>
 #include <iostream>
 
-struct cat
+bool is_even(int x)
 {
-    double cuteness() const
-    {
-        return softness_ * temperature_ * roundness_ * fur_amount_ - size_;
-    }
-    std::string name_;
-    double softness_;
-    double temperature_;
-    double size_;
-    double roundness_;
-    double fur_amount_;
-};
+    return x % 2 == 0;
+}
+
+template <typename Pred, typename Cont>
+Cont keep_if(Pred pred, const Cont& xs)
+{
+  Cont ys;
+  for (const auto x : xs)
+  {
+      if (pred(x))
+      {
+          ys.push_back(x);
+      }
+  }
+  return ys;
+}
 
 int main()
 {
-    std::vector<cat> cats = {
-        {"Tigger",   5, 5, 5, 5, 5},
-        {"Simba",    2, 9, 9, 2, 7},
-        {"Muffin",   9, 4, 2, 8, 6},
-        {"Garfield", 6, 5, 7, 9, 5}};
-
-    auto cutest_cat = fplus::maximum_on(std::mem_fn(&cat::cuteness), cats);
-
-    std::cout << cutest_cat.name_ <<
-        " is happy and sleepy. *purr* *purr* *purr*" << std::endl;
-    return 0;
+    std::vector<int> xs = {0,1,2,3,4};
+    const auto ys = keep_if(is_even, xs);
+    
+    assert(ys == std::vector<int>({0,2,4}));
+    std::cout << "Result: OK" << std::endl;
 }
+
+// Then run some tests with it.
+
+// Bonus:
+// See if you can make it work
+// for different container types
+// (e.g. std::list and std::vector).
+
+
