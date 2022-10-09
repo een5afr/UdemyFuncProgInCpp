@@ -2,6 +2,9 @@
 
 template <typename T>
 T str_to_num(const std::string& str) {
+  // Once a std::istringstream object has been created, 
+  // then the string can be streamed and stored using the extraction operator(>>). 
+  // The extraction operator will read until whitespace is reached or until the stream fails.
   T result;
   std::istringstream(str) >> result;
   return result;
@@ -50,7 +53,7 @@ void parse_and_add(const std::string input) {
 
 int main()
 {
-  const std::string input {"1,5,4,7,2,2,3"};
+  const std::string input {"1.9,5.0,4.3,7.1,2.9,2.3,3.2"};
   parse_and_mult(input);
   parse_and_add(input);
 }
